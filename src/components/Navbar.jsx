@@ -12,7 +12,7 @@ const Navbar = () => {
         <p>FACETOOLS</p>
       </div>
       <div className='flex flex-1 justify-center text-3xl font-bold'>
-        <p>Kibatu</p>
+        <p>RASHA</p>
       </div>
       <div className='flex flex-1 justify-end gap-5 mr-4 text-xl'>
         <p><FiSearch/></p>
