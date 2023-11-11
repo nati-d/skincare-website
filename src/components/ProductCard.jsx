@@ -1,76 +1,41 @@
-import React, { useState } from "react";
-import { AiOutlineHeart } from "react-icons/ai";
-import ReactPaginate from "react-paginate";
-import { Link } from "react-router-dom";
-import ProductDetail from "../pages/ProductDetail";
 
-const itemsPerPage = 10;
+import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { BsCartPlus } from 'react-icons/bs';
+import { addToCart } from '../features//slices/cartSlice';
 
 const ProductCard = ({ products }) => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const dispatch = useDispatch();
 
-  const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    console.log(`Added to cart: ${product.name}`);
   };
 
-  const startIndex = currentPage * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentProducts = products.slice(startIndex, endIndex);
-
   return (
-    <div className="flex flex-wrap gap-10 justify-center mb-20">
-      {currentProducts.map((product) => (
-        <div
-          key={product.id}
-          className="w-[300px] h-[350px] border-[2px] cursor-pointer border-white relative  text-white"
-          onClick={() => {
-            <ProductDetail
-              id={product.id}
-              image={product.image}
-              name={product.name}
-              price={product.price}
-              category={product.category}
-              description={product.description}
-            />;
-          }}
-        >
-          <AiOutlineHeart className="absolute top-5 right-5 text-3xl" />
-          <div className="w-full h-[280px]">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {products.map((product) => (
+        <div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
+          <Link to={`/productDetail/${product.id}`}>
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full bg-cover"
+              className="w-full h-40 object-cover mb-4 rounded-md"
             />
-          </div>
-          <div className="flex flex-col items-center justify-center mt-2">
-            <p>{product.name}</p>
-            <p className="font-extrabold text-xl">{product.price} Br</p>
+            <h2 className="text-lg font-semibold mb-2 text-black">{product.name}</h2>
+          </Link>
+          <div className="flex justify-between items-center">
+            <span className="text-green-500 font-bold">${product.price}</span>
+            <button
+              className="bg-black text-white px-4 py-2 rounded-full text-center"
+              onClick={() => handleAddToCart(product)}
+            >
+              <BsCartPlus className="text-xl font-bold" />
+            </button>
           </div>
         </div>
       ))}
-      <div className="w-full flex justify-center mt-4">
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          pageCount={Math.ceil(products.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={"pagination-container"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"bg-white text-black"}
-          previousClassName={"border p-2"}
-          nextClassName={"border p-2"}
-          pageClassName={"border p-2 px-5"}
-          breakClassName={"pagination-button"}
-          previousLinkClassName={"pagination-link"}
-          nextLinkClassName={"pagination-link"}
-          pageLinkClassName={"pagination-link"}
-          breakLinkClassName={"pagination-link"}
-          className="flex gap-10 "
-        />
-      </div>
     </div>
   );
 };

@@ -45,13 +45,13 @@ const Navbar = () => {
         <p onClick={()=> setSelectedMenuItem("")}><Link to='/'>RASHA</Link></p>
       </div>
       <div className='flex flex-1 justify-end gap-5 mr-4 text-xl'>
-        <p><FiSearch /></p>
-        <p><AiOutlineHeart /></p>
-        <p><BsHandbag /></p>
+        <p className='cursor-pointer'><FiSearch /></p>
+        <p className='cursor-pointer'><AiOutlineHeart /></p>
+        <p className='cursor-pointer'><Link to='/cart'><BsHandbag /></Link></p>
       </div>
 
       {modalVisible && (
-        <div className='absolute top-0 left-0 w-[80%] h-screen bg-white z-500'>
+        <div className='absolute top-0 left-0 w-[80%] h-screen bg-white z-999'>
           <div className='relative h-full'>
             <RxCross1
               className='absolute top-4 right-4 text-black text-xl font-extrabold cursor-pointer'
